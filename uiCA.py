@@ -1913,7 +1913,7 @@ def printUopsTable(tableLineData, uArchConfig: MicroArchConfig, addHyperlink=Tru
       else:
          line += tld.string
       print(line)
-
+   print('hello')
    print(getTableBorderLine(u'\u251c', u'\u253c', u'\u2524'))
    sumLine = getTableLine([formatTableValue(sum(v) if k != 'Notes' else '') for k, v in columns.items()])
    sumLine += ' Total'
@@ -2317,9 +2317,12 @@ def runSimulation(disas: List[InstrDisas], uArchConfig: MicroArchConfig, alignme
    uopsForRelRound = uopsForRound[firstRelevantRound:(lastRelevantRound+1)]
 
    TP = round((uopsForRelRound[-1][lastApplicableInstr][-1].retired - uopsForRelRound[0][lastApplicableInstr][-1].retired) / (len(uopsForRelRound)-1), 2)
-
+   #print('number of iterations: n={:.2f}'.format((len(uopsForRelRound)-1)))
+   #print('cycle which last instruction of last iteration retired: t={:.2f}'.format(uopsForRelRound[-1][lastApplicableInstr][-1].retired))
+   #print('cycle which last instruction of n/2 iteration retired: t\'={:.2f}'.format(uopsForRelRound[0][lastApplicableInstr][-1].retired))
+   print()
    if printDetails:
-      print('Throughput (in cycles per iteration): {:.2f}'.format(TP))
+      print('printDetails: Throughput (in cycles per iteration): {:.2f}'.format(TP))
 
       relevantInstrInstances = []
       relevantInstrInstancesForInstr = {instr: [] for instr in instructions}
@@ -2441,8 +2444,9 @@ def main():
       TP = runSimulation(disas, uArchConfig, int(args.alignmentOffset), args.initPolicy, args.noMicroFusion, args.noMacroFusion, args.simpleFrontEnd,
                     not args.TPonly, args.trace, args.graph, args.json)
       if args.TPonly:
-         print('{:.2f}'.format(TP))
-
+         print('{')
+         print('\"throughput\":\"{:.2f}\"'.format(TP))
+         print('}')
 
 if __name__ == "__main__":
     main()
